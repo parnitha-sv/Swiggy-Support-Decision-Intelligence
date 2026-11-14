@@ -313,7 +313,7 @@ The total RNN parameter count is 26,768.
 
 The RNN parameter count does not increase with sequence length because the same weights are reused at every time step.
 
-A tanh hidden activation and softmax output with categorical cross-entropy loss are suitable for the 16-class task.
+For the 10-class image-classification task, ReLU is suitable for the hidden layers, while softmax is appropriate for the output layer with categorical cross-entropy loss. For the 16-class RNN text-classification task, tanh is suitable for the hidden state and softmax with categorical cross-entropy can be used for the output.
 
 Very deep plain networks can suffer from vanishing gradients, preventing early layers from learning effectively. Skip connections provide shorter gradient paths and help information flow through deeper networks.
 
