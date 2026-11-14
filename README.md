@@ -163,7 +163,7 @@ The four successive WCSS reductions were:
 - K=4 to K=5: 171.0575.
 - K=5 to K=6: 45.5466.
 
-The elbow method selected K=3, as indicated by the generated project results. The largest reduction in WCSS occurred when moving from K=2 to K=3 (659.8282). Beyond K=3, the improvements were comparatively smaller, indicating that three clusters provide a reasonable balance between cluster compactness and model complexity.
+The elbow method selected K=3 based on the specified elbow criterion. The reduction from K=3 to K=4 (108.0739) is less than half of the reduction from K=2 to K=3 (659.8282), which is 329.9141. Therefore, K=3 satisfies the required condition and was selected for the remaining analysis.
 
 The WCSS reductions do not decrease steadily because the pinned starting rows provide one reproducible clustering solution, which is not necessarily the global optimum for every K. Therefore, the specified starting points and the resulting K=3 solution were retained for the remaining analysis.
 
