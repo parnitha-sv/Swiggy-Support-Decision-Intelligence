@@ -89,7 +89,6 @@ The hierarchical clustering analysis also compared single, complete and average 
 
 Part 4 compares decision-tree splits, classification models, voting methods, AdaBoost and neural-network architectures.
 
-
 ### R4.1 Decision-tree split analysis
 
 Four candidate splits were evaluated using entropy, Gini impurity, information gain and Gini gain.
@@ -111,7 +110,6 @@ The five models were evaluated using precision, recall and F1-score on the 240 t
 | Soft voting | 0.4368 | 0.7451 | 0.5507 |
 
 Logistic regression is the recommended model for the initial production system because it achieved the highest F1-score of 0.5714 with a recall of 0.7451. Although the decision-tree stump achieved a slightly higher recall of 0.7647, its F1-score was lower at 0.5532. Neither hard voting nor soft voting improved the F1-score over logistic regression, indicating that combining these models did not provide an overall improvement.
-
 
 ### R4.3 AdaBoost
 
