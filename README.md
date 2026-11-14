@@ -73,18 +73,22 @@ The log-log model achieved an R-squared value of 0.6565 and an adjusted R-square
 
 ### R1.5 Multiple regression
 
+
 The multiple regression model achieved an R-squared value of 0.7425 and an adjusted R-squared of 0.7403.
 
-The predictors with coefficient magnitudes greater than 0.05, excluding the constant, were:
+The estimated coefficients were:
 
-- X4 – Account value (ln scale): coefficient 1.1576.
-- X2 – Earlier ticket count in the last 90 days: coefficient 0.0940.
-- X3 – SLA consumed ratio: coefficient 0.1067.
-- X6 – Reopened ticket flag: coefficient 0.1518.
+- X1: 1.1576
+- X2: -0.0074
+- X3: 0.0940
+- X4: 0.1067
+- X5: 0.0028
+- X6: 0.1518
+- X7: 0.0172
 
-The multiple regression adjusted R-squared of 0.7403 was higher than the log-log model adjusted R-squared of 0.6561, an improvement of 0.0842.
+Using an absolute coefficient magnitude greater than 0.05 as a descriptive cutoff, X1, X3, X4 and X6 have coefficients exceeding this threshold.
 
-This suggests that the additional predictors improve the model's explanatory performance even after accounting for model complexity. However, the coefficients have different units and should not be interpreted as directly comparable measures of predictor importance.
+The multiple regression adjusted R-squared of 0.7403 was higher than the log-log model adjusted R-squared of 0.6561, an improvement of 0.0842. This indicates better explanatory performance after accounting for model complexity. Coefficient magnitudes should be interpreted with consideration of the different predictor scales.
 
 ## Part 2 findings
 
