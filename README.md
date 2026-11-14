@@ -1,2 +1,183 @@
-# Swiggy-Support-Decision-Intelligence
-IIT Mandi Capstone – Swiggy Support Decision Intelligence
+
+Domain: Support
+
+# Swiggy Support Decision Intelligence
+
+IIT Mandi Data Science and Machine Learning Capstone Project.
+
+This project analyses customer-support ticket escalation using statistical methods, machine learning, clustering, ensemble learning and neural-network architecture calculations.
+
+## How to run
+
+Clone the repository and enter the project directory:
+
+```bash
+git clone https://github.com/parnitha-sv/Swiggy-Support-Decision-Intelligence.git
+cd Swiggy-Support-Decision-Intelligence
+```
+
+Install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the scripts in the following order:
+
+```bash
+python generate_data.py
+python part1.py
+python part2.py
+python part3.py
+python part4.py
+```
+
+The generated datasets are stored in `data/` and the analysis results are stored in `outputs/`.
+
+## Part 1 findings
+
+Part 1 applies mathematical and statistical foundations to 800 customer-support records.
+
+- Mean resolution time: 8.9382.
+- Standard deviation: 9.1723.
+- Standard error: 0.3243.
+- 95% confidence interval: [8.3026, 9.5738].
+- Z-statistic: 2.8930; the null hypothesis was rejected.
+- Required sample size: 1293.
+
+Simple linear regression produced a slope of 0.6701 and an intercept of -3.6598, with an R-squared value of 0.5196. The RMSE was 6.3537 and MAE was 3.7636.
+
+The multiple regression model achieved an R-squared value of 0.7425 and adjusted R-squared of 0.7403. The log-log model achieved an R-squared of 0.6565.
+
+The residual standard deviation ratio improved from 3.7525 in the raw model to 1.0396 in the log-log model.
+
+## Part 2 findings
+
+Part 2 implements logistic regression and KNN to predict support-ticket escalation.
+
+The dataset was divided into 560 training records and 240 test records. There were 119 positive training records and 51 positive test records.
+
+Logistic regression achieved:
+
+- Test binary cross-entropy: 0.3818.
+- At threshold 0.5, accuracy was 0.8042 and F1 was 0.5053.
+- At threshold 0.3, precision was 0.4634, recall was 0.7451 and F1 was 0.5714.
+
+The selected KNN value was K = 5. Its test accuracy was 0.7583 and F1 was 0.3696.
+
+Cost-based threshold analysis selected a threshold of 0.15. Using the specified cost rule, the training cost was INR 12,150 and test cost was INR 6,050. The test cost at threshold 0.5 was INR 11,800.
+
+## Part 3 findings
+
+Part 3 performs customer segmentation using K-means clustering and hierarchical clustering, followed by Principal Component Analysis (PCA).
+
+The elbow method selected three clusters.
+
+| Segment | Size | Outcome rate | Mean value |
+|---|---:|---:|---:|
+| A | 322 | 0.0186 | 3.5976 |
+| B | 255 | 0.2353 | 17.1248 |
+| C | 223 | 0.4664 | 7.2883 |
+
+The three segments show different customer characteristics and escalation rates.
+
+PCA produced five eigenvalues with a total of 5.0000. The first three principal components explained 86.16% of the total variance. Therefore, three components were sufficient to retain more than 80% of the variance.
+
+The hierarchical clustering analysis also compared single, complete and average linkage methods.
+
+## Part 4 findings
+
+Part 4 compares decision-tree splits, classification models, voting methods, AdaBoost and neural-network architectures.
+
+### R4.1 Decision-tree split analysis
+
+Four candidate splits were evaluated using entropy, Gini impurity, information gain and Gini gain.
+
+The root entropy was 0.7462. S4 (X1 <= 24) achieved the highest information gain and Gini gain among the four candidates.
+
+A tree grown until every leaf is pure may overfit the training data. A maximum-depth constraint or minimum samples per leaf can prevent excessive growth.
+
+### R4.2 Model comparison and voting
+
+Logistic regression achieved an F1 score of 0.5714 and recall of 0.7451 at threshold 0.3.
+
+KNN achieved an F1 score of 0.3696, while the decision-tree stump achieved 0.5532.
+
+Hard voting achieved an F1 score of 0.5344, and soft voting achieved 0.5507.
+
+Combining the models did not improve F1 over logistic regression alone.
+
+### R4.3 AdaBoost
+
+Two rounds of AdaBoost were implemented manually.
+
+- Round 1 weighted error: 0.2500.
+- Round 1 alpha: 0.5493.
+- Round 2 weighted error: 0.1667.
+- Round 2 alpha: 0.8047.
+- Ensemble accuracy: 0.7500.
+
+The two misclassified points after round 1 normalization carried a combined weight of 0.5000.
+
+Round 2 assigns greater importance to h2 because its weighted error is lower than that of h1.
+
+### R4.4 Architecture analysis
+
+The out-of-bag fraction for 560 bootstrap samples was 0.3676.
+
+Model A: Image classification
+
+| CNN layer | Output shape | Parameters |
+|---|---|---:|
+| Conv1 | 28 x 28 x 6 | 156 |
+| Max-pool 1 | 14 x 14 x 6 | 0 |
+| Conv2 | 10 x 10 x 16 | 2416 |
+| Max-pool 2 | 5 x 5 x 16 | 0 |
+| Flatten | 400 | 0 |
+| Dense 1 | 32 | 12832 |
+| Dense 2 | 10 | 330 |
+
+The CNN total is 15,734 parameters. The fully connected alternative contains 13,002 parameters.
+
+For a 128 x 128 x 3 input and 1,024 neurons, the fully connected layer has 50,332,672 parameters, compared with 1,792 parameters for a convolutional layer with 64 filters of size 3 x 3.
+
+Model B: Recurrent neural network
+
+| Weight or bias | Shape / size |
+|---|---:|
+| W_xh | 128 x 64 |
+| W_hh | 128 x 128 |
+| W_hy | 16 x 128 |
+| b_h | 128 |
+| b_y | 16 |
+
+The total RNN parameter count is 26,768.
+
+The RNN parameter count does not increase with sequence length because the same weights are reused at every time step.
+
+A tanh hidden activation and softmax output with categorical cross-entropy loss are suitable for the 16-class task.
+
+Very deep plain networks can suffer from vanishing gradients, preventing early layers from learning effectively. Skip connections provide shorter gradient paths and help information flow through deeper networks.
+
+## Model-choice memo
+
+To: Head of Customer-Support Operations
+
+Subject: Recommended escalation prediction model
+
+I recommend logistic regression as the initial production model for structured support-ticket escalation prediction. At the Task 4.2 threshold of 0.30, it achieved an F1 score of 0.5714 and recall of 0.7451, outperforming KNN (F1 0.3696), hard voting (0.5344) and soft voting (0.5507). Combining models did not improve the F1 score.
+
+For production, I recommend the cost-selected threshold of 0.15 from Task 2.8. Its test cost was INR 6,050 under the specified cost rule of INR 50 per false positive and INR 400 per false negative. This is the logistic-regression comparator for operational decision-making.
+
+The evidence is limited by the synthetic dataset and the relatively small number of positive test records. The model should be validated on real historical tickets before deployment.
+
+Model B, the ticket-text RNN, is worth exploring as a future complementary system, but it should not delay validation and deployment of the structured-data model.
+
+## Limitations
+
+1. The dataset is synthetic and may not represent the actual distribution of customer-support tickets.
+2. The evaluation uses a single training/test split, so performance may vary with a different split.
+3. The test set contains only 51 positive escalation records, limiting the certainty of recall and F1 estimates.
+4. The analysis does not include external validation, real-world deployment or monitoring for data drift.
+5. Model A and Model B are evaluated through architecture and parameter calculations only; their predictive performance has not been tested through model training.
+6. The results do not establish causal relationships between customer attributes and ticket escalation.
