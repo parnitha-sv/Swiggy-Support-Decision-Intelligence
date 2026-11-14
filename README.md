@@ -90,21 +90,56 @@ Using an absolute coefficient magnitude greater than 0.05 as a descriptive cutof
 
 The multiple regression adjusted R-squared of 0.7403 was higher than the log-log model adjusted R-squared of 0.6561, an improvement of 0.0842. This indicates better explanatory performance after accounting for model complexity. Coefficient magnitudes should be interpreted with consideration of the different predictor scales.
 
+
 ## Part 2 findings
 
-Part 2 implements logistic regression and KNN to predict support-ticket escalation.
+Part 2 develops a logistic regression classifier from scratch to predict whether a customer-support ticket will be escalated to a senior team. The dataset was divided into 560 training records and 240 test records, with 119 positive training records and 51 positive test records.
 
-The dataset was divided into 560 training records and 240 test records. There were 119 positive training records and 51 positive test records.
+### R2.1 Learning-rate comparison
 
-Logistic regression achieved:
+After 200 updates, the training losses for the three learning rates were:
 
-- Test binary cross-entropy: 0.3818.
-- At threshold 0.5, accuracy was 0.8042 and F1 was 0.5053.
-- At threshold 0.3, precision was 0.4634, recall was 0.7451 and F1 was 0.5714.
+- Learning rate 1.0: 0.3703
+- Learning rate 0.1: 0.3776
+- Learning rate 0.01: 0.5091
 
-The selected KNN value was K = 5. Its test accuracy was 0.7583 and F1 was 0.3696.
+The lowest loss was obtained with a learning rate of 1.0, followed by 0.1 and 0.01. A very small learning rate can make convergence slow because the parameter updates are small, whereas a larger learning rate can converge faster but may overshoot the minimum if it is too large.
 
-Cost-based threshold analysis selected a threshold of 0.15. Using the specified cost rule, the training cost was INR 12,150 and test cost was INR 6,050. The test cost at threshold 0.5 was INR 11,800.
+### R2.2 Important predictors and odds ratios
+
+The three predictors with the largest absolute logistic regression weights were:
+
+- X3 (SLA consumed ratio): weight 0.9013.
+- X1 (Customer tenure): weight -0.5554.
+- X6 (Reopened ticket flag): weight 0.2348.
+
+The largest odds ratio was for X3 (SLA consumed ratio), with an odds ratio of 2.4629. This means that a one-standard-deviation increase in the SLA consumed ratio multiplies the odds of a ticket being escalated by approximately 2.46, holding the other predictors constant.
+
+### R2.3 Threshold evaluation and class imbalance
+
+At a threshold of 0.5, logistic regression achieved an accuracy of 0.8042, while the blind model that predicted no escalation for every ticket achieved an accuracy of 0.7875.
+
+Accuracy alone is a weak evaluation measure because the dataset is imbalanced, with only 51 positive escalation records among the 240 test records. A model can achieve relatively high accuracy by predicting the majority negative class while missing many actual escalations.
+
+Lowering the threshold from 0.5 to 0.3 increased recall from 0.4706 to 0.7451, while precision decreased from 0.5455 to 0.4634. This means that the lower threshold identifies more actual escalations but also produces more false alarms.
+
+### R2.4 Logistic regression versus KNN
+
+At a threshold of 0.3, logistic regression achieved an F1-score of 0.5714 and recall of 0.7451.
+
+The KNN model, with the selected K = 5, achieved an F1-score of 0.3696 and recall of 0.3333.
+
+Logistic regression performed better than KNN on both F1-score and recall. It identified a larger proportion of actual escalations while maintaining a better balance between precision and recall.
+
+### R2.5 Cost-based threshold selection and deployment
+
+The cost-based threshold selection procedure identified 0.15 as the optimal threshold using the training data, with a training cost of INR 12,150.
+
+On the test data, the logistic regression model using the selected threshold of 0.15 produced a cost of INR 6,050. In comparison, using a threshold of 0.5 resulted in a cost of INR 11,800, while flagging nobody resulted in a cost of INR 20,400.
+
+Therefore, I recommend deploying the logistic regression model with a threshold of 0.15 for identifying tickets that may require supervisor review.
+
+The threshold was selected using training data rather than test data to avoid using the test set for model selection and to preserve an independent evaluation of the model's performance.
 
 ## Part 3 findings
 
