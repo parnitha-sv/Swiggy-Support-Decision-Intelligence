@@ -91,21 +91,26 @@ Part 4 compares decision-tree splits, classification models, voting methods, Ada
 
 ### R4.1 Decision-tree split analysis
 
-Four candidate splits were evaluated using entropy, Gini impurity, information gain and Gini gain.
+Four candidate splits were evaluated using entropy, Gini impurity, information gain and Gini gain. S4 (X1 <= 24) was the best split because it produced the greatest reduction in impurity among the four candidates, resulting in the highest information gain and Gini gain.
 
-The root entropy was 0.7462. S4 (X1 <= 24) achieved the highest information gain and Gini gain among the four candidates.
+Growing a decision tree until every leaf is pure can cause overfitting because the tree may learn noise and specific patterns in the training data rather than generalisable relationships. A maximum-depth constraint can prevent the tree from growing excessively deep.
 
-A tree grown until every leaf is pure may overfit the training data. A maximum-depth constraint or minimum samples per leaf can prevent excessive growth.
 
 ### R4.2 Model comparison and voting
 
-Logistic regression achieved an F1 score of 0.5714 and recall of 0.7451 at threshold 0.3.
 
-KNN achieved an F1 score of 0.3696, while the decision-tree stump achieved 0.5532.
+The five models were evaluated using precision, recall and F1-score on the 240 test records.
 
-Hard voting achieved an F1 score of 0.5344, and soft voting achieved 0.5507.
+| Model | Precision | Recall | F1-score |
+|---|---:|---:|---:|
+| Logistic regression | 0.4634 | 0.7451 | 0.5714 |
+| KNN (K=5) | 0.4146 | 0.3333 | 0.3696 |
+| Decision-tree stump | 0.4333 | 0.7647 | 0.5532 |
+| Hard voting | 0.4375 | 0.6863 | 0.5344 |
+| Soft voting | 0.4368 | 0.7451 | 0.5507 |
 
-Combining the models did not improve F1 over logistic regression alone.
+Logistic regression is the recommended model for the initial production system because it achieved the highest F1-score of 0.5714 with a recall of 0.7451. Although the decision-tree stump achieved a slightly higher recall of 0.7647, its F1-score was lower at 0.5532. Neither hard voting nor soft voting improved the F1-score over logistic regression, indicating that combining these models did not provide an overall improvement.
+
 
 ### R4.3 AdaBoost
 
