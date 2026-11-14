@@ -141,23 +141,105 @@ Therefore, I recommend deploying the logistic regression model with a threshold 
 
 The threshold was selected using training data rather than test data to avoid using the test set for model selection and to preserve an independent evaluation of the model's performance.
 
+
 ## Part 3 findings
 
-Part 3 performs customer segmentation using K-means clustering and hierarchical clustering, followed by Principal Component Analysis (PCA).
+Part 3 performs customer segmentation using K-means clustering and hierarchical clustering, followed by Principal Component Analysis (PCA). The analysis uses all 800 records and the five continuous predictors X1 to X5.
 
-The elbow method selected three clusters.
+### R3.1 K-means clustering and elbow method
 
-| Segment | Size | Outcome rate | Mean value |
-|---|---:|---:|---:|
-| A | 322 | 0.0186 | 3.5976 |
-| B | 255 | 0.2353 | 17.1248 |
-| C | 223 | 0.4664 | 7.2883 |
+The within-cluster sum of squares (WCSS) values obtained for different numbers of clusters were:
 
-The three segments show different customer characteristics and escalation rates.
+| K | WCSS |
+|---|---:|
+| 2 | 2262.6753 |
+| 3 | 1602.8471 |
+| 4 | 1494.7732 |
+| 5 | 1323.7157 |
+| 6 | 1278.1691 |
 
-PCA produced five eigenvalues with a total of 5.0000. The first three principal components explained 86.16% of the total variance. Therefore, three components were sufficient to retain more than 80% of the variance.
+The four successive WCSS reductions were:
 
-The hierarchical clustering analysis also compared single, complete and average linkage methods.
+- K=2 to K=3: 659.8282.
+- K=3 to K=4: 108.0739.
+- K=4 to K=5: 171.0575.
+- K=5 to K=6: 45.5466.
+
+The elbow method selected K=3. The reduction from K=3 to K=4 (108.0739) is less than half the reduction from K=2 to K=3 (659.8282), satisfying the specified elbow criterion.
+
+The WCSS reductions do not decrease steadily because the pinned starting rows provide one reproducible clustering solution, which is not necessarily the global optimum for every K. Therefore, the specified starting points and the resulting K=3 solution were retained for the remaining analysis.
+
+### R3.2 Customer segment profiles and business actions
+
+The three segments were ordered by their mean X3 values in ascending order.
+
+| Segment | Size | Mean X2 | Mean X3 | Mean X4 | Outcome rate | Mean value |
+|---|---:|---:|---:|---:|---:|---:|
+| A | 322 | 1.9503 | 0.2250 | 12.5301 | 0.0186 | 3.5976 |
+| B | 255 | 6.0706 | 0.4534 | 28.7192 | 0.2353 | 17.1248 |
+| C | 223 | 4.2287 | 0.7118 | 16.5099 | 0.4664 | 7.2883 |
+
+The segments can be interpreted as follows:
+
+- **Segment A – Low-friction tickets:** These tickets have the lowest earlier ticket count, lowest SLA consumption and lowest escalation rate of 1.86%. The support team can use standard resolution workflows and avoid unnecessary supervisor escalations.
+- **Segment B – High-value repeat-contact tickets:** These tickets have the highest earlier ticket count and mean account value, along with an escalation rate of 23.53%. The team should provide proactive follow-ups and prioritise resolving recurring customer issues.
+- **Segment C – SLA-pressure tickets:** These tickets have the highest SLA consumed ratio and the highest escalation rate of 46.64%. The team should trigger early warnings and supervisor reviews before the SLA limit is reached.
+
+Segment C has the highest outcome rate of 0.4664 (46.64%), making it the most escalation-prone segment.
+
+### R3.3 Hierarchical clustering
+
+Agglomerative hierarchical clustering was performed using single, complete and average linkage on the six supplied ticket cohorts.
+
+At the specified dendrogram cut, the resulting clusters were:
+
+**Single linkage – 4 clusters:**
+
+- E1
+- E2+E3+E6
+- E4
+- E5
+
+**Complete linkage – 2 clusters:**
+
+- E1+E4+E5
+- E2+E3+E6
+
+Single linkage uses the minimum distance between members of two clusters, which allows nearby points to join through a chaining effect even when other members are relatively far apart. Complete linkage uses the maximum distance between members, requiring all cross-cluster pairs to remain relatively close, which produces a different merging structure and a larger final merge height.
+
+### R3.4 Principal Component Analysis (PCA)
+
+PCA was performed on the standardised 800 × 5 feature matrix. After standardisation, the mean vector of the five predictors is approximately zero.
+
+The sum of the five eigenvalues was 5.0000. The explained variance was:
+
+| Principal component | Explained variance | Cumulative variance |
+|---|---:|---:|
+| PC1 | 52.27% | 52.27% |
+| PC2 | 23.66% | 75.93% |
+| PC3 | 10.23% | 86.16% |
+| PC4 | 8.11% | 94.27% |
+| PC5 | 5.73% | 100.00% |
+
+Three principal components are required to retain at least 80% of the total variance, explaining 86.16%.
+
+The PC1 loadings were:
+
+- X1 (Customer tenure): +0.5317.
+- X2 (Earlier ticket count): -0.4100.
+- X3 (SLA consumed ratio): -0.5187.
+- X4 (Account value): -0.2916.
+- X5 (Satisfaction score): +0.4418.
+
+X1 and X5 have positive contributions to PC1, while X2, X3 and X4 have negative contributions. X1 and X3 have the largest absolute loadings, followed by X5, X2 and X4. Thus, PC1 contrasts customer tenure and satisfaction against ticket history, SLA consumption and account value.
+
+The mean PC1 scores of the three segments were:
+
+- Segment A: 1.7773.
+- Segment B: -0.7831.
+- Segment C: -1.6709.
+
+Segment A lies on the positive side of PC1, whereas Segments B and C lie on the negative side. Segment C has the lowest mean PC1 score, showing that the three customer segments have different profiles along the first principal component.
 
 ## Part 4 findings
 
