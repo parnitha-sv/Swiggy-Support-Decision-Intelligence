@@ -181,9 +181,9 @@ The three segments were ordered by their mean X3 values in ascending order.
 
 The segments can be interpreted as follows:
 
-- **Segment A – Low-friction tickets:** These tickets have the lowest earlier ticket count, lowest SLA consumption and lowest escalation rate of 1.86%. The support team can use standard resolution workflows and avoid unnecessary supervisor escalations.
+- **Segment A – Low-SLA tickets:** These tickets have the lowest earlier ticket count, lowest SLA consumption and lowest escalation rate of 1.86%. The support team can use standard resolution workflows and avoid unnecessary supervisor escalations.
 - **Segment B – High-value repeat-contact tickets:** These tickets have the highest earlier ticket count and mean account value, along with an escalation rate of 23.53%. The team should provide proactive follow-ups and prioritise resolving recurring customer issues.
-- **Segment C – SLA-pressure tickets:** These tickets have the highest SLA consumed ratio and the highest escalation rate of 46.64%. The team should trigger early warnings and supervisor reviews before the SLA limit is reached.
+- **Segment C – High-SLA-consumption tickets:** These tickets have the highest SLA consumed ratio and the highest escalation rate of 46.64%. The team should trigger early warnings and supervisor reviews before the SLA limit is reached.
 
 Segment C has the highest outcome rate of 0.4664 (46.64%), making it the most escalation-prone segment.
 
@@ -205,7 +205,7 @@ At the specified dendrogram cut, the resulting clusters were:
 - E1+E4+E5
 - E2+E3+E6
 
-Single linkage uses the minimum distance between members of two clusters, which allows nearby points to join through a chaining effect even when other members are relatively far apart. Complete linkage uses the maximum distance between members, requiring all cross-cluster pairs to remain relatively close, which produces a different merging structure and a larger final merge height.
+Single linkage joins E2, E3 and E6 early because their pairwise distances are small, allowing clusters to form through a chaining effect. Complete linkage considers the maximum distance between cluster members, resulting in a different merging order and delaying the final merge until a height of 7.9, compared with 3.4 for single linkage.
 
 ### R3.4 Principal Component Analysis (PCA)
 
