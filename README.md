@@ -111,7 +111,7 @@ The three predictors with the largest absolute logistic regression weights were:
 
 - X3 (SLA consumed ratio): weight 0.9013.
 - X1 (Customer tenure): weight -0.5554.
-- X6 (Reopened ticket flag): weight 0.2348.
+- X2 (Earlier ticket count in the last 90 days): weight 0.5505.
 
 The largest odds ratio was for X3 (SLA consumed ratio), with an odds ratio of 2.4629. This means that a one-standard-deviation increase in the SLA consumed ratio multiplies the odds of a ticket being escalated by approximately 2.46, holding the other predictors constant.
 
