@@ -89,15 +89,16 @@ The hierarchical clustering analysis also compared single, complete and average 
 
 Part 4 compares decision-tree splits, classification models, voting methods, AdaBoost and neural-network architectures.
 
+
 ### R4.1 Decision-tree split analysis
 
-Four candidate splits were evaluated using entropy, Gini impurity, information gain and Gini gain. S4 (X1 <= 24) was the best split because it produced the greatest reduction in impurity among the four candidates, resulting in the highest information gain and Gini gain.
+Four candidate splits were evaluated using entropy, Gini impurity, information gain and Gini gain.
+
+The root entropy was 0.7462. S4 (X1 <= 24) was the best split because it produced the greatest reduction in impurity among the four candidates, resulting in the highest information gain and Gini gain.
 
 Growing a decision tree until every leaf is pure can cause overfitting because the tree may learn noise and specific patterns in the training data rather than generalisable relationships. A maximum-depth constraint can prevent the tree from growing excessively deep.
 
-
 ### R4.2 Model comparison and voting
-
 
 The five models were evaluated using precision, recall and F1-score on the 240 test records.
 
