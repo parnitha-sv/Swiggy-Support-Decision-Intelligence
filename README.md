@@ -34,22 +34,57 @@ python part4.py
 
 The generated datasets are stored in `data/` and the analysis results are stored in `outputs/`.
 
+
 ## Part 1 findings
 
-Part 1 applies mathematical and statistical foundations to 800 customer-support records.
+Part 1 analyses 800 customer-support records using statistical estimation, hypothesis testing and regression techniques.
 
-- Mean resolution time: 8.9382.
-- Standard deviation: 9.1723.
-- Standard error: 0.3243.
-- 95% confidence interval: [8.3026, 9.5738].
-- Z-statistic: 2.8930; the null hypothesis was rejected.
-- Required sample size: 1293.
+### R1.1 Estimation and hypothesis testing
 
-Simple linear regression produced a slope of 0.6701 and an intercept of -3.6598, with an R-squared value of 0.5196. The RMSE was 6.3537 and MAE was 3.7636.
+The sample mean resolution time was 8.9382 minutes, compared with the planning assumption of 8.0 minutes. The 95% confidence interval was [8.3026, 9.5738] minutes.
 
-The multiple regression model achieved an R-squared value of 0.7425 and adjusted R-squared of 0.7403. The log-log model achieved an R-squared of 0.6565.
+The calculated z-statistic was 2.8930, which exceeds the two-tailed critical value of 1.96 at the 5% significance level. Therefore, the null hypothesis was rejected. There is sufficient statistical evidence that the average resolution time differs from the assumed 8.0 minutes.
 
-The residual standard deviation ratio improved from 3.7525 in the raw model to 1.0396 in the log-log model.
+A Type I error in this context would mean concluding that the actual average resolution time differs from 8.0 minutes when, in reality, the true population mean is 8.0 minutes.
+
+The difference between the observed mean and the planning assumption is 0.9382 minutes. This is a relatively modest difference for an individual ticket, but it may become operationally meaningful across a large number of support tickets.
+
+### R1.2 Sample size estimation
+
+The required sample size was 1293 records to estimate the mean within a margin of error of 0.5 minutes at 95% confidence. Only 800 records were available, which is 493 fewer than required.
+
+This indicates that the available dataset does not meet the desired precision for the planning team's estimation target. Additional records would be needed to achieve the specified margin of error.
+
+### R1.3 Gradient descent
+
+Gradient descent reduced the cost from 163.9178 at iteration 0 to 40.3698 at iteration 100 and remained at 40.3698 at iteration 500.
+
+The difference between the gradient-descent slope and the closed-form regression slope was 0.0000.
+
+Gradient descent reached the closed-form solution because the linear regression cost function is convex, and the standardized predictor with the selected learning rate allowed the full-batch updates to converge towards the minimum.
+
+### R1.4 Residual analysis and log transformation
+
+The raw regression model produced a residual standard deviation ratio of 3.7525 between the upper and lower fitted-value groups. This indicates a funnel pattern, where residual variability increases with fitted values.
+
+After applying a log-log transformation, the residual standard deviation ratio decreased to 1.0396. This indicates that the log transformation substantially reduced the funnel pattern and made the residual spread more consistent across the two groups.
+
+The log-log model achieved an R-squared value of 0.6565 and an adjusted R-squared of 0.6561.
+
+### R1.5 Multiple regression
+
+The multiple regression model achieved an R-squared value of 0.7425 and an adjusted R-squared of 0.7403.
+
+The predictors with coefficient magnitudes greater than 0.05, excluding the constant, were:
+
+- X4 – Account value (ln scale): coefficient 1.1576.
+- X2 – Earlier ticket count in the last 90 days: coefficient 0.0940.
+- X3 – SLA consumed ratio: coefficient 0.1067.
+- X6 – Reopened ticket flag: coefficient 0.1518.
+
+The multiple regression adjusted R-squared of 0.7403 was higher than the log-log model adjusted R-squared of 0.6561, an improvement of 0.0842.
+
+This suggests that the additional predictors improve the model's explanatory performance even after accounting for model complexity. However, the coefficients have different units and should not be interpreted as directly comparable measures of predictor importance.
 
 ## Part 2 findings
 
