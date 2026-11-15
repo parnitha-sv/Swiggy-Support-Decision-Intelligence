@@ -89,6 +89,8 @@ Using an absolute coefficient magnitude greater than 0.05 as the specified descr
 
 The multiple regression adjusted R-squared of 0.7403 was higher than the log-log model adjusted R-squared of 0.6561, an improvement of 0.0842. This indicates better explanatory performance after accounting for model complexity. Coefficient magnitudes should be interpreted with consideration of the different predictor scales.
 
+Because the predictors use different units and scales, the 0.05 cutoff is a mechanical rule rather than a ranking of importance; the list should not be interpreted as identifying the only predictors that matter.
+
 ## Part 2 findings
 
 Part 2 develops a logistic regression classifier from scratch to predict whether a customer-support ticket will be escalated to a senior team. The dataset was divided into 560 training records and 240 test records, with 119 positive training records and 51 positive test records.
