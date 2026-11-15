@@ -131,6 +131,8 @@ The KNN model, with the selected K = 5, achieved an F1-score of 0.3696 and recal
 
 Logistic regression performed better than KNN on both F1-score and recall. It identified a larger proportion of actual escalations while maintaining a better balance between precision and recall.
 
+The five-fold cross-validation results selected K = 5, which achieved the highest mean CV F1-score of 0.4541 among the tested K values.
+
 ### R2.5 Cost-based threshold selection and deployment
 
 The cost-based threshold selection procedure identified 0.15 as the optimal threshold using the training data, with a training cost of INR 12,150.
