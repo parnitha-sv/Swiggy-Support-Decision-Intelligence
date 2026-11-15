@@ -359,10 +359,17 @@ for model_name, predictions in model_predictions.items():
     results[f"{model_name}_cost"] = 50 * fp + 400 * fn
 
 
-# Official Task 2.8 logistic threshold comparator
-results["logistic_task2_cost_comparator"] = 6050
+# Read the logistic-regression cost calculated in Part 2
+with open("outputs/part2_results.txt", "r") as f:
+    for line in f:
+        key, value = line.strip().split(" = ", 1)
 
-
+        if key == "cost_test_at_tau":
+            results["logistic_task2_cost_comparator"] = int(value)
+            break
+    else:
+        raise ValueError("cost_test_at_tau not found in part2_results.txt")
+        
 # ==================================================
 # TASK 4.3: TWO ROUNDS OF ADABOOST BY HAND
 # ==================================================
@@ -469,7 +476,7 @@ with open("outputs/part4_adaboost.csv", "w", newline="") as f:
         writer.writerow([
             row[0],
             row[1],
-            *[f"{value:.6f}" for value in row[2:]]
+            *[f"{value:.4f}" for value in row[2:]]
         ])
 
 
