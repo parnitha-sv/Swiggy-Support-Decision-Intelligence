@@ -207,6 +207,13 @@ At the specified dendrogram cut, the resulting clusters were:
 - E1+E4+E5
 - E2+E3+E6
 
+**Average linkage – 2 clusters:**
+
+- E1+E4+E5
+- E2+E3+E6
+
+Average linkage produced the same two-cluster grouping as complete linkage at the specified dendrogram cut. However, its final merge height was 5.6556, compared with 7.9 for complete linkage and 3.4 for single linkage.
+
 Single linkage joins E2, E3 and E6 early because their pairwise distances are small, allowing clusters to form through a chaining effect. Complete linkage considers the maximum distance between cluster members, resulting in a different merging order and delaying the final merge until a height of 7.9, compared with 3.4 for single linkage.
 
 ### R3.4 Principal Component Analysis (PCA)
@@ -251,7 +258,7 @@ Part 4 compares decision-tree splits, classification models, voting methods, Ada
 
 Four candidate splits were evaluated using entropy, Gini impurity, information gain and Gini gain.
 
-The root entropy was 0.7462. S4 (X1 <= 24) was the best split because it produced the greatest reduction in impurity among the four candidates, resulting in the highest information gain and Gini gain.
+The root entropy was 0.7462 and the root Gini impurity was 0.3347. S4 (X1 <= 24) was the best split because it produced the greatest reduction in impurity among the four candidates, resulting in the highest information gain and Gini gain.
 
 Growing a decision tree until every leaf is pure can cause overfitting because the tree may learn noise and specific patterns in the training data rather than generalisable relationships. A maximum-depth constraint can prevent the tree from growing excessively deep.
 
